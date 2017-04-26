@@ -40,7 +40,7 @@
 ```
         2.通过切面实现使用锁：to be continue...
         首先需要配置xml文件：
-        ```Xml
+```Xml
                <!--配置一个AOP advisor bean-->
                <bean id="dlockInterceptor" class="com.iris.interceptor.DLockInterceptor">
                       <!--注入jedisPool-->
@@ -56,9 +56,9 @@
                <!--这个里面有一个方法需要使用分布式锁-->
                <bean id="dlockSpringTest" class="com.iris.dlock.spring.DlockSpringTest"/>
 
-        ```
+```
         DlockSpringTest代码如下:
-        ```Java
+```Java
         @Slf4j
         public class DlockSpringTest {
             /**
@@ -78,8 +78,7 @@
                 log.info(Thread.currentThread().getName()+"<===");
             }
         }
-
-        ```
+```
 
         下面是调用DlockSpringTest.dlock4Test的示例:
         ```Java
@@ -96,4 +95,4 @@
                 obj.dlock4Test("p1v1",complexKey,"p3v1");
             }
         }
-        ```
+```
