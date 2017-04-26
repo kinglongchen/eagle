@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.kinglong.com/schema/mango"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.kinglong.com/schema/mango"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+    <xsd:import namespace="http://www.springframework.org/schema/beans"/>
+    <xsd:import namespace="http://www.springframework.org/schema/tool"/>
+
+    <xsd:complexType name="configType">
+        <xsd:attribute name="pool-ref" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[ redeis pool bean ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:element name="config" type="configType"/>
+
+
+</xsd:schema>
