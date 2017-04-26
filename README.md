@@ -1,6 +1,7 @@
-一个分布式锁的实现
-有两种使用方式
-1.直接通过RedisLock来加锁,使用示例如下:
+        一个分布式锁的实现
+        有两种使用方式
+        1.直接通过RedisLock来加锁,使用示例如下:
+``` Java
     //    @Test
     public static void main(String[] args) {
         //获取一个JedisPool
@@ -36,5 +37,5 @@
         }
 
     }
-
-2.通过切面实现使用锁：to be continue...
+```
+        2.通过切面实现使用锁：to be continue...
