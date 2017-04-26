@@ -1,2 +1,4 @@
 .idea/
 *.iml
+*RedisLockTest.java
+*test.dlock.xml
