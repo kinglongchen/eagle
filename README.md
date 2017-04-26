@@ -81,7 +81,7 @@
 ```
 
         下面是调用DlockSpringTest.dlock4Test的示例:
-        ```Java
+```Java
         public class MainTest {
             public static void main(String[] args) {
                 ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("test.dlock.xml");
