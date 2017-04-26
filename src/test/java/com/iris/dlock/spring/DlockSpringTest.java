@@ -9,6 +9,12 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class DlockSpringTest {
+    /**
+     * Dlock 表示这个这个方法是加了分布式锁的
+     * @param p1
+     * @param p2 有一个@LockKey注解表示这个参数将要作为分布式锁的key
+     * @param p3
+     */
     @Dlock
     public void dlock4Test(String p1,@LockKey ComplexKey p2,String p3) {
         log.info(Thread.currentThread().getName()+"===>");

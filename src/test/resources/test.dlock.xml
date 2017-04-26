@@ -28,14 +28,18 @@
        </bean>
        <!-- <bean id="jedisClient" class="com.tqmall.venus.manager.redis.JedisClient"/> -->
 
+       <!--配置一个AOP advisor bean-->
        <bean id="dlockInterceptor" class="com.iris.interceptor.DLockInterceptor">
+              <!--注入jedisPool-->
               <property name="jedisPool" ref="jedisPool"/>
        </bean>
 
+       <!--配置 aop-->
        <aop:config proxy-target-class="true">
               <aop:pointcut id="dlockWrapper" expression="@annotation(com.iris.annotations.Dlock)"/>
               <aop:advisor advice-ref="dlockInterceptor" pointcut-ref="dlockWrapper"/>
        </aop:config>
 
+       <!--这个里面有一个方法需要使用分布式锁-->
        <bean id="dlockSpringTest" class="com.iris.dlock.spring.DlockSpringTest"/>
 </beans>
