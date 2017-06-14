@@ -14,10 +14,10 @@ public class RedisLock {
 
     private final String lockKey;
 
-    //¿Í»§¶Ë»ñÈ¡ËøµÄ³¬Ê±Ê±¼ä10Ãë=10*1000*1000*1000ÄÉÃë
+    //å®¢æˆ·ç«¯è·å–é”çš„è¶…æ—¶æ—¶é—´10ç§’=10*1000*1000*1000çº³ç§’
     private static long CLIENT_LOCK_REQ_TIMEOUT_TIME = 10*1000*1000*1000l;
 
-    //¿Í»§¶Ë»ñÕ¼ÓÃËøµÄ×î³¤Ê±¼äÎª60Ãë=60*1000*1000*1000ÄÉÃë
+    //å®¢æˆ·ç«¯è·å ç”¨é”çš„æœ€é•¿æ—¶é—´ä¸º60ç§’=60*1000*1000*1000çº³ç§’
     private static long LOCK_EXPIRE_TIME = 60*1000*1000*1000l;
 
     private volatile Boolean locked = false;
@@ -32,29 +32,29 @@ public class RedisLock {
         try {
             jedis = jedisPool.getResource();
             long timeout = CLIENT_LOCK_REQ_TIMEOUT_TIME;
-            log.debug("ÕıÔÚ³¢ÊÔ»ñµÃËø:lockKey={}...",this.lockKey);
+            log.debug("æ­£åœ¨å°è¯•è·å¾—é”:lockKey={}...",this.lockKey);
             while (timeout>0) {
                 long currentTime = System.nanoTime();
                 long expires = currentTime+ LOCK_EXPIRE_TIME;
                 if (jedis.setnx(this.lockKey,String.valueOf(expires)) == 1) {
-                    log.debug("³É¹¦»ñµÃËø:lockKey={}",this.lockKey);
+                    log.debug("æˆåŠŸè·å¾—é”:lockKey={}",this.lockKey);
                     return setLock();
                 }
-                log.debug("ËøÒÑ±»Õ¼Áì,ÕıÔÚ³¢ÊÔÊÇ·ñ³¬Ê±:lockKey={}...", this.lockKey);
+                log.debug("é”å·²è¢«å é¢†,æ­£åœ¨å°è¯•æ˜¯å¦è¶…æ—¶:lockKey={}...", this.lockKey);
                 String oldLockValue = jedis.get(this.lockKey);
-//                log.debug("Ëø³¬Ê±Ê±¼äexpires={},µ±Ç°Ê±¼äcurrentTime={}",oldLockValue,currentTime);
+//                log.debug("é”è¶…æ—¶æ—¶é—´expires={},å½“å‰æ—¶é—´currentTime={}",oldLockValue,currentTime);
                 if (oldLockValue != null && Long.parseLong(oldLockValue)<currentTime) {
-                    log.debug("Ëø³¬Ê±,ÕıÔÚ³¢ÊÔ»ñÈ¡³¬Ê±µÄËø:lockKey={}...", this.lockKey);
+                    log.debug("é”è¶…æ—¶,æ­£åœ¨å°è¯•è·å–è¶…æ—¶çš„é”:lockKey={}...", this.lockKey);
                     String newLockValue = jedis.getSet(this.lockKey, String.valueOf(expires));
                     if (newLockValue != null && newLockValue.equals(oldLockValue)) {
-                        log.debug("ÒÑ»ñÈ¡³¬Ê±µÄËø:lockKey={}",this.lockKey);
+                        log.debug("å·²è·å–è¶…æ—¶çš„é”:lockKey={}",this.lockKey);
                         return setLock();
                     }
                 }
                 timeout-=(long)100*1000*1000;
                 Thread.sleep(100);
             }
-            log.debug("»ñÈ¡ËøÊ§°Ü:lockKey={}",this.lockKey);
+            log.debug("è·å–é”å¤±è´¥:lockKey={}",this.lockKey);
             return Boolean.FALSE;
         } finally {
             if (jedis != null) {
@@ -67,7 +67,7 @@ public class RedisLock {
 
     public void unlock() {
         if (this.locked) {
-            log.debug("ÕıÔÚ³¢ÊÔÊÍ·ÅËø:lockKey={}",this.lockKey);
+            log.debug("æ­£åœ¨å°è¯•é‡Šæ”¾é”:lockKey={}",this.lockKey);
             Jedis jedis = null;
             try {
                 jedis = jedisPool.getResource();
@@ -80,7 +80,7 @@ public class RedisLock {
             }
 
 
-            log.debug("ÊÍ·ÅËø³É¹¦:lockKey={}",this.lockKey);
+            log.debug("é‡Šæ”¾é”æˆåŠŸ:lockKey={}",this.lockKey);
         }
     }
 
