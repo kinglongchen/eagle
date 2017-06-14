@@ -100,5 +100,20 @@
         </dependency>
     </dependencies>
 
+    <!--项目发布-->
+    <distributionManagement>
+        <repository>
+            <id>tyfnet-release</id>
+            <name>User Project Release</name>
+            <url>http://www.tyfnet.com:8088/nexus/content/repositories/releases/</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>tyfnet-snapshots</id>
+            <name>User Project SNAPSHOTS</name>
+            <url>http://www.tyfnet.com:8088/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 
 </project>

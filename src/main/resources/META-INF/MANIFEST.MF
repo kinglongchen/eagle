@@ -1,2 +1,1 @@
-Manifest-Version: 1.0
-Can-Redefine-Classes: true
+Manifest-Version: 1.0Can-Redefine-Classes: true
