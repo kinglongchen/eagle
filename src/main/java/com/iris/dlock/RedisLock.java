@@ -15,27 +15,27 @@ public class RedisLock {
     private final String lockKey;
 
     //客户端获取锁的超时时间10秒=10*1000*1000*1000纳秒
-    private long timeoutTime = 10*1000*1000*1000l;
+    private static long CLIENT_LOCK_REQ_TIMEOUT_TIME = 10*1000*1000*1000l;
 
     //客户端获占用锁的最长时间为60秒=60*1000*1000*1000纳秒
-    private long expireTime = 60*1000*1000*1000l;
+    private static long LOCK_EXPIRE_TIME = 60*1000*1000*1000l;
 
-    private Boolean locked = false;
+    private volatile Boolean locked = false;
 
     public RedisLock(String lockKey,JedisPool jedisPool) {
         this.lockKey  = lockKey;
         this.jedisPool = jedisPool;
     }
 
-    public synchronized Boolean lock() throws InterruptedException {
+    public Boolean lock() throws InterruptedException {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-            long timeout = timeoutTime;
+            long timeout = CLIENT_LOCK_REQ_TIMEOUT_TIME;
             log.debug("正在尝试获得锁:lockKey={}...",this.lockKey);
             while (timeout>0) {
                 long currentTime = System.nanoTime();
-                long expires = currentTime+expireTime;
+                long expires = currentTime+ LOCK_EXPIRE_TIME;
                 if (jedis.setnx(this.lockKey,String.valueOf(expires)) == 1) {
                     log.debug("成功获得锁:lockKey={}",this.lockKey);
                     return setLock();
@@ -65,7 +65,7 @@ public class RedisLock {
 
     }
 
-    public synchronized void unlock() {
+    public void unlock() {
         if (this.locked) {
             log.debug("正在尝试释放锁:lockKey={}",this.lockKey);
             Jedis jedis = null;
